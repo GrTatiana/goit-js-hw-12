@@ -26,9 +26,11 @@ refs.formSearch.addEventListener('submit', event => {
     return;
     refs.imgGallery.innerHTML = '';
   } else {
+    showLoader();
     getImage(imgKeyWord)
       .then(data => marcupImage(data))
       .catch(err => {});
+    hideLoader();
   }
+  refs.formSearch.reset();
 });
-// refs.formSearch.reset();

@@ -13,9 +13,8 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-
   color: #242424;
-  background-color: rgba(255, 255, 255, 0.87);
+  background-color: rgb(249, 246, 241);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,20 +22,16 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-.welcome {
-  text-align: center;
-  color: brown;
-}
+
 .input-img-search {
+  border: 1px solid #ccc;
+  border-radius: 4px;
   border-radius: 4px;
   width: 272px;
   height: 40px;
-  background: #fff;
   font-size: 16px;
   line-height: 150%;
   letter-spacing: 0.04em;
-  color: #808080;
-  border-color: #808080;
 }
 .btn-search {
   border-radius: 8px;
