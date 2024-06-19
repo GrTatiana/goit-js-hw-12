@@ -10,6 +10,7 @@ export const refs = {
   formSearch: document.querySelector('#search'),
   inputImgSearch: document.querySelector('.input-img-search'),
   imgGallery: document.querySelector('.gallery'),
+  galleryList: document.querySelector('.gallery-list'),
   loader: document.querySelector('.loader'),
 };
 
@@ -17,7 +18,7 @@ refs.formSearch.addEventListener('submit', event => {
   event.preventDefault();
   const imgKeyWord = refs.inputImgSearch.value.trim();
   if (imgKeyWord === '') {
-    refs.imgGallery.innerHTML = ' ';
+    refs.galleryList.innerHTML = ' ';
     iziToast.warning({
       title: 'warning',
       message: ' Enter a word for the query, please.',

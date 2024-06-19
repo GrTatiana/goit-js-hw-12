@@ -9,8 +9,7 @@ export function marcupImage(images) {
   const gallery = refs.imgGallery;
   const marcup = images
     .map(image => {
-      return `<a class="gallery-link" href="${image.largeImageURL}">
-  <li class="gallery-item">
+      return `<a class="gallery-item" href="${image.largeImageURL}">
     <img
       width=360;
       height=200;
