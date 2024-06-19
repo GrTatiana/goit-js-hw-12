@@ -55,39 +55,86 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+.gallery-link {
+}
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
   justify-content: center;
+  gap: 10px;
+}
+.gallery-image {
+  border: 1px solid #808080;
+  border-radius: 5px;
+  height: 200px;
+  display: flex;
+}
+.image-info {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 55px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #808080;
+  width: 360px;
+
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 133%;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+  background: #fff;
+}
+p {
+  width: 34px;
+  height: 40px;
+  font-weight: 600;
+}
+.gallery-item {
+  list-style-type: none;
 }
 .loader {
-  display: inline-block;
-  transform: translateZ(1px);
+  width: 8px;
+  height: 40px;
+  border-radius: 4px;
+  display: block;
+  margin: 20px auto;
+  position: relative;
+  background: currentColor;
+  color: aquamarine;
+  box-sizing: border-box;
+  animation: animloader 0.3s 0.3s linear infinite alternate;
 }
-.loader:after {
+
+.loader::after,
+.loader::before {
   content: '';
-  display: inline-block;
-  width: 100px;
-  height: 100px;
-  margin: 8px;
-  border-radius: 50%;
-  background: hsl(0, 12%, 95%);
-  animation: coin-flip 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  width: 8px;
+  height: 40px;
+  border-radius: 4px;
+  background: currentColor;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 20px;
+  box-sizing: border-box;
+  animation: animloader 0.3s 0.45s linear infinite alternate;
 }
-@keyframes coin-flip {
-  0%,
-  100% {
-    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
-  }
+.hidden {
+  display: none;
+}
+.loader::before {
+  left: -20px;
+  animation-delay: 0s;
+}
+
+@keyframes animloader {
   0% {
-    transform: rotateY(0deg);
-  }
-  50% {
-    transform: rotateY(1800deg);
-    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    height: 48px;
   }
   100% {
-    transform: rotateY(3600deg);
+    height: 4px;
   }
 }

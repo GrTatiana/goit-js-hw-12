@@ -2,7 +2,7 @@ import { getImage } from './js/pixabay-api.js';
 import { marcupImage, showLoader, hideLoader } from './js/render-function.js';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import 'simplelightbox/dist/simple-lightbox.min.js';
+// import 'simplelightbox/dist/simple-lightbox.min.js';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
@@ -16,21 +16,35 @@ export const refs = {
 refs.formSearch.addEventListener('submit', event => {
   event.preventDefault();
   const imgKeyWord = refs.inputImgSearch.value.trim();
-  console.log(imgKeyWord);
   if (imgKeyWord === '') {
-    iziToast.error({
-      title: 'Error',
+    refs.imgGallery.innerHTML = ' ';
+    iziToast.warning({
+      title: 'warning',
+      message: ' Enter a word for the query, please.',
+      position: 'center',
+      displayMode: 'once',
+      maxWidth: 500,
+      imageWidth: 600,
+    });
+  }
+
+  showLoader();
+  const arr = getImage(imgKeyWord);
+  if (arr.length !== 0) {
+    arr.then(data => marcupImage(data.hits));
+  }
+  arr.catch(err => {
+    iziToast.show({
       message:
         'Sorry, there are no images matching your search query. Please try again!',
+      position: 'center',
+      displayMode: 'once',
+      maxWidth: 500,
+      imageWidth: 600,
     });
-    return;
-    refs.imgGallery.innerHTML = '';
-  } else {
-    showLoader();
-    getImage(imgKeyWord)
-      .then(data => marcupImage(data))
-      .catch(err => {});
+  });
+  arr.finally(() => {
     hideLoader();
-  }
-  refs.formSearch.reset();
+    refs.formSearch.reset();
+  });
 });

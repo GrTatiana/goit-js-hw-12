@@ -9,7 +9,6 @@ export function getImage(image) {
     safesearch: true,
   });
   const url = `${BASE_URL}${END_POINT}?${params}`;
-  console.log(url);
   return fetch(url)
     .then(data => data.json())
     .catch(err => {});
