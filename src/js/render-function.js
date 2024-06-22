@@ -4,16 +4,16 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { refs } from '../main';
-let lightbox;
-lightbox = new SimpleLightbox('.gallery a', {
+const lightbox = new SimpleLightbox('.gallery li', {
   captionsData: 'alt',
   captionDelay: 250,
 });
+
 export function marcupImage(images) {
-  const gallery = refs.imgGallery;
   const marcup = images
     .map(image => {
-      return `<a class="gallery-item" href="${image.largeImageURL}">
+      return `<li class="gallery-item"
+      <a class="gallery-link" href="${image.largeImageURL}">
     <img
       width=360;
       height=200;
@@ -27,10 +27,11 @@ export function marcupImage(images) {
                     <p>DOWNLOADS: ${image.downloads}</p>
                 </div>
             </a>
+            </li>
         `;
     })
     .join('');
-  gallery.innerHTML = marcup;
+  refs.imgGallery.innerHTML = marcup;
   lightbox.refresh();
 }
 export function showLoader() {
@@ -39,4 +40,7 @@ export function showLoader() {
 
 export function hideLoader() {
   refs.loader.classList.add('hidden');
+}
+export function formReset() {
+  refs.formSearch.reset();
 }
