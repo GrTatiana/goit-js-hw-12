@@ -5,6 +5,10 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { refs } from '../main';
 let lightbox;
+lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 export function marcupImage(images) {
   const gallery = refs.imgGallery;
   const marcup = images
@@ -27,10 +31,7 @@ export function marcupImage(images) {
     })
     .join('');
   gallery.innerHTML = marcup;
-  lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-  }).refresh();
+  lightbox.refresh();
 }
 export function showLoader() {
   refs.loader.classList.remove('hidden');

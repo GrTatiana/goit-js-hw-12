@@ -22,30 +22,29 @@ refs.formSearch.addEventListener('submit', event => {
     iziToast.warning({
       title: 'warning',
       message: ' Enter a word for the query, please.',
-      position: 'center',
+      layout: 2,
+      position: 'topRight',
       displayMode: 'once',
-      maxWidth: 500,
-      imageWidth: 600,
     });
+    return;
   }
-
   showLoader();
-  const arr = getImage(imgKeyWord);
-  if (arr.length !== 0) {
-    arr.then(data => marcupImage(data.hits));
+  const data = getImage(imgKeyWord);
+  if (data != []) {
+    data.then(data => marcupImage(data.hits));
   }
-  arr.catch(err => {
-    iziToast.show({
-      message:
-        'Sorry, there are no images matching your search query. Please try again!',
-      position: 'center',
-      displayMode: 'once',
-      maxWidth: 500,
-      imageWidth: 600,
-    });
+  iziToast.error({
+    title: 'Error',
+    message:
+      'Sorry, there are no images matching your search query. Please try again!',
+    layout: 2,
+    position: 'topRight',
+    displayMode: 'once',
+    zz,
   });
-  arr.finally(() => {
-    hideLoader();
-    refs.formSearch.reset();
-  });
+  return;
+});
+arr.finally(() => {
+  hideLoader();
+  refs.formSearch.reset();
 });
