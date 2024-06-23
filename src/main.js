@@ -46,8 +46,6 @@ refs.formSearch.addEventListener('submit', async event => {
   try {
     const data = await getArticle(query, currentPage);
     maxPage = Math.ceil(data.totalHits / perPage);
-    console.log(maxPage);
-
     if (maxPage === 0) {
       showError(
         'Sorry, there are no images matching your search query. Please try again!'
@@ -59,8 +57,6 @@ refs.formSearch.addEventListener('submit', async event => {
     }
     const marcup = marcupImage(data.hits);
     refs.imgGallery.insertAdjacentHTML('beforeend', marcup);
-
-    console.log(data.hits);
   } catch (error) {
     console.log(error);
   }

@@ -58,6 +58,7 @@ export function scrollGallery() {
     behavior: 'smooth',
   });
 }
+
 export function updateLoadBtnStatus() {
   if (currentPage >= maxPage) {
     hideLoadBtn();
@@ -68,6 +69,7 @@ export function updateLoadBtnStatus() {
     showLoadBtn();
   }
 }
+
 export function showError(message) {
   iziToast.error({
     title: 'Error',

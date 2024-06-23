@@ -14,6 +14,5 @@ export async function getArticle(query, currentPage) {
     order: 'popular',
   };
   const result = await axios.get('/api/', { params });
-  console.log(result.data);
   return result.data;
 }
