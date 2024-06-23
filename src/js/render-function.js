@@ -1,9 +1,8 @@
-// Описаний у документації
 import SimpleLightbox from 'simplelightbox';
-// Додатковий імпорт стилів
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import { currentPage, maxPage, refs } from '../main';
+import iziToast from 'izitoast';
 
-import { refs } from '../main';
 const lightbox = new SimpleLightbox('.gallery li', {
   captionsData: 'alt',
   captionDelay: 250,
@@ -31,7 +30,7 @@ export function marcupImage(images) {
         `;
     })
     .join('');
-  refs.imgGallery.innerHTML = marcup;
+  return marcup;
   lightbox.refresh();
 }
 export function showLoader() {
@@ -43,4 +42,38 @@ export function hideLoader() {
 }
 export function formReset() {
   refs.formSearch.reset();
+}
+export function showLoadBtn() {
+  refs.loadBtn.classList.remove('hidden');
+}
+export function hideLoadBtn() {
+  refs.loadBtn.classList.add('hidden');
+}
+
+export function scrollGallery() {
+  const liElem = refs.imgGallery.children[0];
+  const height = liElem.getBoundingClientRect().height;
+  scrollBy({
+    top: height * 2,
+    behavior: 'smooth',
+  });
+}
+export function updateLoadBtnStatus() {
+  if (currentPage >= maxPage) {
+    hideLoadBtn();
+    if (maxPage) {
+      showError("We're sorry, but you've reached the end of search results.");
+    }
+  } else {
+    showLoadBtn();
+  }
+}
+export function showError(message) {
+  iziToast.error({
+    title: 'Error',
+    message: message,
+    layout: 2,
+    position: 'topRight',
+    displayMode: 'once',
+  });
 }

@@ -1,9 +1,14 @@
-import { getImage } from './js/pixabay-api.js';
+import { getArticle } from './js/pixabay-api.js';
 import {
   marcupImage,
   showLoader,
   hideLoader,
+  showLoadBtn,
+  updateLoadBtnStatus,
+  hideLoadBtn,
   formReset,
+  showError,
+  scrollGallery,
 } from './js/render-function.js';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
@@ -13,12 +18,18 @@ export const refs = {
   inputImgSearch: document.querySelector('.input-img-search'),
   imgGallery: document.querySelector('.gallery'),
   loader: document.querySelector('.loader'),
+  loadBtn: document.querySelector('.load-btn'),
 };
+let query;
+export let currentPage = 1;
+export let maxPage;
+export const perPage = 15;
 
-refs.formSearch.addEventListener('submit', event => {
+refs.formSearch.addEventListener('submit', async event => {
   event.preventDefault();
-  const imgKeyWord = refs.inputImgSearch.value.trim();
-  if (imgKeyWord === '') {
+  query = event.target.elements.search.value.trim();
+
+  if (!query) {
     refs.imgGallery.innerHTML = ' ';
     iziToast.warning({
       title: 'warning',
@@ -30,27 +41,46 @@ refs.formSearch.addEventListener('submit', event => {
     return;
   }
   showLoader();
-  refs.imgGallery.innerHTML = ' ';
-  getImage(imgKeyWord)
-    .then(({ hits }) => {
-      if (hits.length === 0) {
-        iziToast.error({
-          title: 'Error',
-          message:
-            'Sorry, there are no images matching your search query. Please try again!',
-          layout: 2,
-          position: 'topRight',
-          displayMode: 'once',
-        });
-        hideLoader();
-        formReset();
-        return;
-      }
+  hideLoadBtn();
+  currentPage = 1;
+  try {
+    const data = await getArticle(query, currentPage);
+    maxPage = Math.ceil(data.totalHits / perPage);
+    console.log(maxPage);
+
+    if (maxPage === 0) {
+      showError(
+        'Sorry, there are no images matching your search query. Please try again!'
+      );
       hideLoader();
-      marcupImage(hits);
+      updateLoadBtnStatus();
+      return;
       formReset();
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    }
+    const marcup = marcupImage(data.hits);
+    refs.imgGallery.insertAdjacentHTML('beforeend', marcup);
+
+    console.log(data.hits);
+  } catch (error) {
+    console.log(error);
+  }
+  hideLoader();
+  updateLoadBtnStatus();
+  formReset();
+});
+
+refs.loadBtn.addEventListener('click', async event => {
+  currentPage++;
+  hideLoadBtn();
+  showLoader();
+  try {
+    const data = await getArticle(query, currentPage);
+    const marcup = marcupImage(data.hits);
+    refs.imgGallery.insertAdjacentHTML('beforeend', marcup);
+    scrollGallery();
+  } catch (error) {
+    console.log(error);
+  }
+  hideLoader();
+  updateLoadBtnStatus();
 });

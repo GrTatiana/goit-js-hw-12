@@ -33,7 +33,7 @@
   line-height: 150%;
   letter-spacing: 0.04em;
 }
-.btn-search {
+button {
   border-radius: 8px;
   border: none;
   padding: 8px 16px;
@@ -45,8 +45,13 @@
   letter-spacing: 0.04em;
   color: #fff;
 }
-.btn-search:hover {
+button:hover {
   background: #6c8cff;
+}
+.load-btn {
+  margin: 0 auto;
+  margin-top: 20px;
+  display: block;
 }
 #search {
   display: flex;
@@ -103,7 +108,7 @@ p {
   margin: 20px auto;
   position: relative;
   background: currentColor;
-  color: aquamarine;
+  color: rgb(105, 10, 40);
   box-sizing: border-box;
   animation: animloader 0.3s 0.3s linear infinite alternate;
 }
