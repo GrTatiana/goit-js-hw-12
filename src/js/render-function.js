@@ -3,11 +3,10 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import { currentPage, maxPage, refs } from '../main';
 import iziToast from 'izitoast';
 
-const lightbox = new SimpleLightbox('.gallery li', {
+let lightbox = new SimpleLightbox('.gallery li', {
   captionsData: 'alt',
   captionDelay: 250,
 });
-
 export function marcupImage(images) {
   const marcup = images
     .map(image => {
@@ -30,8 +29,9 @@ export function marcupImage(images) {
         `;
     })
     .join('');
-  return marcup;
+  refs.imgGallery.insertAdjacentHTML('beforeend', marcup);
   lightbox.refresh();
+  // return marcup;
 }
 export function showLoader() {
   refs.loader.classList.remove('hidden');
@@ -53,7 +53,7 @@ export function hideLoadBtn() {
 export function scrollGallery() {
   const liElem = refs.imgGallery.children[0];
   const height = liElem.getBoundingClientRect().height;
-  scrollBy({
+  window.scrollBy({
     top: height * 2,
     behavior: 'smooth',
   });

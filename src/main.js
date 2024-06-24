@@ -12,7 +12,6 @@ import {
 } from './js/render-function.js';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-
 export const refs = {
   formSearch: document.querySelector('#search'),
   inputImgSearch: document.querySelector('.input-img-search'),
@@ -20,6 +19,7 @@ export const refs = {
   loader: document.querySelector('.loader'),
   loadBtn: document.querySelector('.load-btn'),
 };
+
 let query;
 export let currentPage = 1;
 export let maxPage;
@@ -28,9 +28,9 @@ export const perPage = 15;
 refs.formSearch.addEventListener('submit', async event => {
   event.preventDefault();
   query = event.target.elements.search.value.trim();
-
-  if (!query) {
-    refs.imgGallery.innerHTML = ' ';
+  refs.imgGallery.innerHTML = '';
+  if (query === '') {
+    hideLoadBtn();
     iziToast.warning({
       title: 'warning',
       message: ' Enter a word for the query, please.',
@@ -38,6 +38,8 @@ refs.formSearch.addEventListener('submit', async event => {
       position: 'topRight',
       displayMode: 'once',
     });
+    hideLoader();
+    formReset();
     return;
   }
   showLoader();
@@ -51,12 +53,12 @@ refs.formSearch.addEventListener('submit', async event => {
         'Sorry, there are no images matching your search query. Please try again!'
       );
       hideLoader();
+      formReset();
       updateLoadBtnStatus();
       return;
-      formReset();
     }
     const marcup = marcupImage(data.hits);
-    refs.imgGallery.insertAdjacentHTML('beforeend', marcup);
+    formReset();
   } catch (error) {
     console.log(error);
   }
@@ -72,7 +74,6 @@ refs.loadBtn.addEventListener('click', async event => {
   try {
     const data = await getArticle(query, currentPage);
     const marcup = marcupImage(data.hits);
-    refs.imgGallery.insertAdjacentHTML('beforeend', marcup);
     scrollGallery();
   } catch (error) {
     console.log(error);
